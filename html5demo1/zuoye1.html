@@ -1,104 +1,108 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>作业1</title>
-    <style>
-        #input{
-            width: 200px;
-            height: 35px;
-            border: 2px solid yellow;
-        }
-        #search{
-            width: 150px;
-            height: 35px;
-            color: gray;
-        }
-        #word{
-            margin-top: 0px;
-        }
-        #box{
-            width: 370px;
-            float: left;
-            height: 500px;
-        }
-        .box1{
-            background-color: #e0e0e0;
-            float: left;
-            border: 1px solid #cccccc;
-            margin-top: 0;
-            margin-right: 10px;
-            margin-bottom: 14px;
-            color: #000;
-        }
-        #del{
-            float: left;
-            width: 22px;
-            height: 22px;
-            margin-top: 40px;
-            background-color:  #e0e0e0;
-            color: #fff;
-            border: none;
-        }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>canvas</title>
+<style type="text/css">
+ *{ 
+   margin:0; padding:0;
+  } 
+  
+.box{ 
+  margin:50px; 
+  height:80px;
+  width:200px;
+  background:#FFF; 
+  position:relative;
+  }
+#canvas{
+  position:absolute;
+  left:0px; 
+  top:0px;z-index:99;
+  }
+.box1{ 
+  position:absolute; 
+  left:0px; top:0px; 
+  height:80px; width:200px; 
+  text-align:center; 
+  font-size:40px; 
+  line-height:80px; 
+  z-index:9;
+  }
+</style>
+<title>作业4</title>
 </head>
-<body>
-    <input type="text" id="input" autofocus="autofocus" placeholder='请输入想查找的商品'>
-    <button id="search">搜索</button>
-    <p id="word">最近搜索</p>
-    <div id=box>
-    </div>
-    <button id="del">X</button>
-    <script>
-        var input = document.getElementById('input');
-        var search=document.getElementById('search');
-        var box = document.getElementById('box');
-        var box1 = document.getElementById('box1');
-        var del = document.getElementById('del');
-        search.onclick=function(){
-            for(var i=0; i<=localStorage.length; i++){
-                var key = localStorage.key(i);
-                var time = new Date().getTime();
-                if(i!=(localStorage.length)){   
-                    if(input.value == localStorage.getItem(key)){
-                        break;
-                    }    
-                    else
-                        continue;
-                }
-                else{
-                    if(input.value != ''){
-                        localStorage.setItem(time, input.value);
-                        var x = document.createElement('x');
-                        var y = document.createElement('y');
-                        y.innerHTML += input.value;
-                        box.appendChild(x);
-                        x.appendChild(y);
-                        y.className="box1";                         
-                        break;
-                    }
-                }         
-			}
-        }
-        window.onload=function(){
-            var str=['《HTML+CSS3从入门到精通》','电脑','华为手机','面包'];
-            for(var j=1;j<5;j++){
-                localStorage.setItem(j,str[j-1]);
-                var x = document.createElement('x');
-                var y = document.createElement('y');
-                y.innerHTML += str[j-1];
-                box.appendChild(x);
-                x.appendChild(y);
-                y.className="box1";
-            }
-        }
-        del.onclick=function(){
-            localStorage.clear();
-            box.innerHTML='';
-        }
-    </script>
+<body> 
+  <div class="box">
+    <div class="box1" id="box1"></div>
+    <canvas width=200 height=80 id="canvas"></canvas> 
+  </div>
+  
 </body>
+<script type="text/javascript">
+
+var cjcon=["一等奖","二等奖","三等奖","谢谢参与"];//奖项设置
+var cjper=[5,10,20,50];//奖项率，次数
+
+var percjcon=[];
+for(var i=0;i<cjper.length;i++){
+  peic(cjper[i],i);
+};
+function peic(len,ind){
+  for(var i=0;i<len;i++){
+    percjcon.push(cjcon[ind]);
+  }; 
+};
+var box1 = document.getElementById("box1");
+var numrandom=Math.floor(Math.random()*percjcon.length);
+box1.innerHTML=percjcon[numrandom];
+  
+var backcolorb="#ffaaaa";
+var numl=200*80;
+var nump;
+  
+var canvas = document.getElementById("canvas");   
+var context = canvas.getContext('2d'); 
+var flag = 0;
+var penwidth=20; 
+context.fillStyle="gray"; 
+context.fillRect(0,0,200,80); 
+  
+canvas.addEventListener('mousemove', onMouseMove, false); 
+canvas.addEventListener('mousedown', onMouseDown, false); 
+canvas.addEventListener('mouseup', onMouseUp, false); 
+var movex=-1;
+var movey=-1;
+var imgData;
+var rgbabox=[];
+function onMouseMove(evt) {
+  if (flag == 1) { 
+    movex=evt.layerX;
+    movey=evt.layerY;    
+    context.fillStyle="#FF0000";
+    context.beginPath();
+    context.globalCompositeOperation="destination-out";
+    context.arc(movex,movey,penwidth,0,Math.PI*2,true);  
+    context.closePath();
+    context.fill();
+    imgData=context.getImageData(0,0,200,80);
+    var pixelsArr = imgData.data;
+    var loop = pixelsArr.length; 
+
+    var transparent = 0;
+    for (var i = 0; i < loop; i += 4) {
+      var alpha = pixelsArr[i + 3];
+      if (alpha < 10)
+			  transparent++;
+	  }
+    var percentage = transparent / (loop / 4); 
+	  if (percentage > 0.85) {
+    context.clearRect(0, 0, 200, 80);
+    } 
+} 
+}
+function onMouseDown(evt) {  
+ flag = 1; 
+}  
+</script>
 </html>
