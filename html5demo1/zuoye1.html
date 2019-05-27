@@ -1,108 +1,153 @@
-<!DOCTYPE html >
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>canvas</title>
-<style type="text/css">
- *{ 
-   margin:0; padding:0;
-  } 
-  
-.box{ 
-  margin:50px; 
-  height:80px;
-  width:200px;
-  background:#FFF; 
-  position:relative;
-  }
-#canvas{
-  position:absolute;
-  left:0px; 
-  top:0px;z-index:99;
-  }
-.box1{ 
-  position:absolute; 
-  left:0px; top:0px; 
-  height:80px; width:200px; 
-  text-align:center; 
-  font-size:40px; 
-  line-height:80px; 
-  z-index:9;
-  }
-</style>
-<title>作业4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width:500px;
+            height: 650px;
+            border: 3px solid #e8e8e8;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+            position: relative;
+        }
+        .box1{
+            width: 500px;
+            height: 600px;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+        }
+        .box2{
+            width:500px;
+            height: 328px;
+            overflow: hidden;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+            background: black;
+        }
+        img{
+            width: 100%;
+            height: auto;
+            transition: transform 1s ease-in-out;
+            filter: blur(1px);
+            box-shadow: 10px 10px 50px 20px red pink blue inset;
+        }
+        .box3{
+            width: 500px;
+            overflow: hidden;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+        }      
+        h1{
+            margin-left:30px;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+        }
+        h2{
+            margin-left: 30px;
+            font-weight: normal;
+            color: #ea9b7c;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+        }
+        .word1{
+            margin-top:0px;
+            margin-left:30px;
+            font-weight: normal;
+            font-size: 23px;
+            color: gray;
+            display: none;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+        }
+        .word2{
+            position: absolute;
+            margin-left: 30px;
+            height: 600;
+            float: left;
+            color: gray;
+        }
+        .word3{
+            position: absolute;
+            margin-left: 120px;
+            height: 600;
+            float: left;
+            color: gray;
+        }
+        .canvas{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top:35px;
+            left: 415px;
+            background:#fe7445;
+            border-radius: 50%;
+        }
+        .a1{
+            position: absolute;
+            width: 70px;
+            height: 30px;
+            background:#fe7445;
+            top:300px;
+            transition-timing-function: ease;
+            transition-duration: 1s;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        .box:hover{
+            border: 3px solid gray;
+        }
+        .box:hover .box2{
+            width: 500px;
+            height: 180px;
+        }
+        .box:hover .box2 img{
+            transform: scale(1.5);
+            box-shadow: 0px 0px 10px url("jianqiao.jpg");
+            opacity:0.7; 
+        }
+        .box:hover .box3{
+            width:500px;
+            height: 390px;
+        }
+        .box:hover .box3 .word1{
+            display: block;
+        }
+        .box:hover .a1{
+            top:150px;
+        }
+        
+    </style>
 </head>
-<body> 
-  <div class="box">
-    <div class="box1" id="box1"></div>
-    <canvas width=200 height=80 id="canvas"></canvas> 
-  </div>
-  
+<body>
+    <div class="box">
+        <div class="box1">
+            <div class="box2">
+                <img src="images/css3.jpg">
+            </div>
+            <div class="box3">
+                <h1>青岛栈桥</h1>
+                <h2>国家AAAA级旅游景区</h2>
+                <p class="word1">青岛栈桥是青岛海滨风景区的景点之一，是国务院于1982年首批公布的国家级风景名胜区。
+                青岛栈桥位于游人如织的青岛中山路南端，桥身从海岸探入如弯月般的青岛湾深处。
+                桥身供游人参观并在此停靠旅游船，由此乘船可看海上青岛.</p>
+            </div>
+        </div>
+        <p class="word2">10分钟前</p>
+        <p class="word3">123评论</p>
+        <div class="canvas">
+            <span style="color:white;">&nbsp&nbsp&nbsp15</span>
+            <span style="color: white;">&nbsp&nbsp五月</span>
+        </div>
+        <div class="a1">
+            <span style="color: white;">&nbsp&nbsp&nbsp照片</span>
+        </div> 
+    </div>    
 </body>
-<script type="text/javascript">
+</html> 
 
-var cjcon=["一等奖","二等奖","三等奖","谢谢参与"];//奖项设置
-var cjper=[5,10,20,50];//奖项率，次数
-
-var percjcon=[];
-for(var i=0;i<cjper.length;i++){
-  peic(cjper[i],i);
-};
-function peic(len,ind){
-  for(var i=0;i<len;i++){
-    percjcon.push(cjcon[ind]);
-  }; 
-};
-var box1 = document.getElementById("box1");
-var numrandom=Math.floor(Math.random()*percjcon.length);
-box1.innerHTML=percjcon[numrandom];
-  
-var backcolorb="#ffaaaa";
-var numl=200*80;
-var nump;
-  
-var canvas = document.getElementById("canvas");   
-var context = canvas.getContext('2d'); 
-var flag = 0;
-var penwidth=20; 
-context.fillStyle="gray"; 
-context.fillRect(0,0,200,80); 
-  
-canvas.addEventListener('mousemove', onMouseMove, false); 
-canvas.addEventListener('mousedown', onMouseDown, false); 
-canvas.addEventListener('mouseup', onMouseUp, false); 
-var movex=-1;
-var movey=-1;
-var imgData;
-var rgbabox=[];
-function onMouseMove(evt) {
-  if (flag == 1) { 
-    movex=evt.layerX;
-    movey=evt.layerY;    
-    context.fillStyle="#FF0000";
-    context.beginPath();
-    context.globalCompositeOperation="destination-out";
-    context.arc(movex,movey,penwidth,0,Math.PI*2,true);  
-    context.closePath();
-    context.fill();
-    imgData=context.getImageData(0,0,200,80);
-    var pixelsArr = imgData.data;
-    var loop = pixelsArr.length; 
-
-    var transparent = 0;
-    for (var i = 0; i < loop; i += 4) {
-      var alpha = pixelsArr[i + 3];
-      if (alpha < 10)
-			  transparent++;
-	  }
-    var percentage = transparent / (loop / 4); 
-	  if (percentage > 0.85) {
-    context.clearRect(0, 0, 200, 80);
-    } 
-} 
-}
-function onMouseDown(evt) {  
- flag = 1; 
-}  
-</script>
-</html>
